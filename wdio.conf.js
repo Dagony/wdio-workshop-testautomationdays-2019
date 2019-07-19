@@ -14,6 +14,7 @@ exports.config = {
 
     seleniumInstallArgs: seleniumOptions,
     seleniumArgs: seleniumOptions,
+    disableWebdriverScreenshotsReporting: false,
 
 
     //
@@ -68,11 +69,15 @@ exports.config = {
         // 5 instances get started at a time.
         maxInstances: 5,
         //
-        browserName: 'firefox',
+        browserName: 'firefox'
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
         // excludeDriverLogs: ['bugreport', 'server'],
+    }, {
+        maxInstances: 5,
+        browserName: 'chrome',
+        browserVersion: seleniumOptions.drivers.chrome.version
     }],
     //
     // ===================
@@ -137,12 +142,13 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter.html
-    reporters: ['dot'],
+    reporters: ['spec'],
 
     //
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
     mochaOpts: {
+        compilers: ['js:babel-register'],
         ui: 'bdd',
         timeout: 60000
     },
@@ -201,8 +207,9 @@ exports.config = {
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
      * beforeEach in Mocha)
      */
-    // beforeHook: function () {
-    // },
+    beforeHook: function () {
+        browser.open('http://todomvc.com/examples/vanillajs/');
+    },
     /**
      * Hook that gets executed _after_ a hook within the suite starts (e.g. runs after calling
      * afterEach in Mocha)
@@ -213,8 +220,13 @@ exports.config = {
      * Function to be executed after a test (in Mocha/Jasmine) or a step (in Cucumber) starts.
      * @param {Object} test test details
      */
-    // afterTest: function (test) {
-    // },
+    afterTest: function (test) {
+
+        if (!test.passed) {
+
+            browser.saveScreenshot(test.fullTitle + '.png');
+        }
+    },
     /**
      * Hook that gets executed after the suite has ended
      * @param {Object} suite suite details
