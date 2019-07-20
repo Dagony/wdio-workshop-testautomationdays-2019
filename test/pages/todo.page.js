@@ -19,7 +19,8 @@ class TodoPage extends Page {
         super.open('login');
     }
 
-    addTodo() {
+    addTodo(value) {
+        this.newTodo.setValue(value);
         browser.keys('Enter');
     }
 
@@ -30,6 +31,12 @@ class TodoPage extends Page {
         browser.execute(i => i.select(), elem.editInput);
         elem.editInput.addValue(str);
         browser.keys('Enter');
+    }
+
+    deleteTodo(elem) {
+        elem.self.moveTo();
+        elem.deleteButton.waitForDisplayed();
+        elem.deleteButton.click();
     }
 
 }
