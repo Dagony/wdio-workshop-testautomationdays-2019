@@ -1,13 +1,17 @@
 const assert = require('assert');
 
-import TodoPage from '../pages/todo.page';
 // #1b: import the page object class instance
-
+const todoPage = require('../pages/todo.page');
+const firstTodo = new todoPage.Todo('first todo');
+/*const secondTodo = new todoPage.Todo('second todo');
+const thirdTodo = new todoPage.Todo('third todo');
+const fourthTodo = new todoPage.Todo('fourth todo');
+const editedTodo = new todoPage.Todo('edited todo');*/
 
 describe('todo app', () => {
     before(() => {
         // #2: add navigation to 'http://todomvc.com/examples/vanillajs/'
-        browser.url('http://todomvc.com/examples/vanillajs/');
+        browser.url('/examples/vanillajs/');
 
     });
     beforeEach(() => {
@@ -23,23 +27,29 @@ describe('todo app', () => {
     // #4:
     it('create todo', () => {
         // create todo item
-        TodoPage.newTodo.setValue('markiemark');
-        TodoPage.addTodo();
+        todoPage.newTodo.setValue('first todo');
+        todoPage.addTodo();
 
         // assert 1 item in list
-        assert.deepStrictEqual(TodoPage.todoItems.length, 1);
+        assert.deepStrictEqual(todoPage.todoItems.length, 1);
 
         // assert list contains the input item
-        assert.deepStrictEqual(TodoPage.todoItems[0].getText(), "markiemark");
+        firstTodo.self.waitForExist();
     });
 
     // #5:
-    it.skip('edit todo', () => {
+    it('edit todo', () => {
         // create a todo item
+        todoPage.newTodo.setValue('first todo');
+        todoPage.addTodo();
 
+        let str = 'Edited text';
         // edit the created todo item
 
-        // // assert changed item in text in todo item
+        todoPage.editTodo(firstTodo, str);
+
+        // assert changed item in text in todo item
+        assert.deepStrictEqual(todoPage.todoItems[0].getText(), str);
     });
 
     // #6:
