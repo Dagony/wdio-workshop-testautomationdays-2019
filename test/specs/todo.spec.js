@@ -82,18 +82,26 @@ describe('todo app', () => {
   });
 
   // #8:
-  it.skip('show active/completed todos', () => {
+  it('show active/completed todos', () => {
     // create 2 todo items
+    todoPage.addTodo('first todo');
+    todoPage.addTodo('second todo');
+    assert.deepStrictEqual(todoPage.todoItems.length, 2);
 
     // complete first todo item
+    firstTodo.completeInput.click();
 
     // when click on show active
+    todoPage.filter.active.click();
 
     // assert todo text equals second input todo item
+    secondTodo.self.waitForExist();
 
     // when click on show completed
+    todoPage.filter.completed.click();
 
     // assert todo text equals first input todo item
+    firstTodo.self.waitForExist();
   });
 
   // #9:

@@ -1,6 +1,7 @@
 // 1a: create todoPage class and export an instance of it
 // login.page.js
 const TodoComponent = require('../components/todo.component');
+const TodoFilterComponent = require('../components/filter.component');
 import Page from './page';
 
 class TodoPage extends Page {
@@ -8,13 +9,12 @@ class TodoPage extends Page {
     constructor(props) {
         super(props);
         this.Todo = TodoComponent;
+        this.filter = new TodoFilterComponent();
     }
 
     get newTodo() { return $('.new-todo'); }
     get todoItems() { return $$('ul.todo-list li')}
     get editInput() { return $$('input.edit')}
-    get completeToggle() { return $$('input.toggle')}
-
 
     open() {
         super.open('login');
