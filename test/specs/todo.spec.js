@@ -68,12 +68,17 @@ describe('todo app', () => {
   });
 
   // #7:
-  it.skip('complete one todo', () => {
+  it('complete one todo', () => {
     // create 2 todo items
+    todoPage.addTodo('first todo');
+    todoPage.addTodo('second todo');
+    assert.deepStrictEqual(todoPage.todoItems.length, 2);
 
     // complete first todo item
+    firstTodo.completeInput.click();
 
     // assert first todo item has class completed
+    assert.deepStrictEqual(firstTodo.isCompleted(), true);
   });
 
   // #8:

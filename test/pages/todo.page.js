@@ -13,6 +13,7 @@ class TodoPage extends Page {
     get newTodo() { return $('.new-todo'); }
     get todoItems() { return $$('ul.todo-list li')}
     get editInput() { return $$('input.edit')}
+    get completeToggle() { return $$('input.toggle')}
 
 
     open() {
